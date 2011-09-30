@@ -25,7 +25,10 @@
 
             this.SessionFactory = Fluently
                 .Configure()
-                .Database(SQLiteConfiguration.Standard.ConnectionString(String.Format("data source={0}", databaseFileName)).IsolationLevel(IsolationLevel.ReadCommitted))
+                .Database(SQLiteConfiguration.Standard
+                    .ConnectionString(String.Format("data source={0}", databaseFileName))
+                    .IsolationLevel(IsolationLevel.ReadCommitted)
+                    .ShowSql())
                 .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Repository).Assembly))
                 .BuildConfiguration()
                 .BuildSessionFactory();
