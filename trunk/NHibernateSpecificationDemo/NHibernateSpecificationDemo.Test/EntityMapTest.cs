@@ -1,24 +1,18 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Reflection;
-using System.IO;
-
-namespace NHibernateSpecificationDemo.Test
+﻿namespace NHibernateSpecificationDemo.Test
 {
+    using System;
+    using System.Text;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class EntityMapTest
     {
         [TestMethod]
         public void MapTest()
         {
-            string databaseFileName = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                "database.db3");
-            var repository = new Repository(databaseFileName);
-            using (var session = repository.SessionFactory.OpenSession())
+            using (var session = RepositoryFactory.Repository.SessionFactory.OpenSession())
             {
                 var entity = new Entity();
                 entity.Value0 = 1;
