@@ -57,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="ValidValue0.cs" />
+    <Compile Include="ValidValue1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="database.db3">

@@ -8,11 +8,14 @@
 
     using FluentNHibernate.Cfg;
     using FluentNHibernate.Cfg.Db;
+    using NHibernate.Linq;
     using NHibernate;
     using LinqSpecs;
 
     public sealed class Repository
     {
+        private readonly ISession session;
+
         public Repository(string databaseFileName)
         {
             if (String.IsNullOrEmpty(databaseFileName))
@@ -26,22 +29,23 @@
                 .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Repository).Assembly))
                 .BuildConfiguration()
                 .BuildSessionFactory();
+
+            this.session = this.SessionFactory.OpenSession();
         }
 
         public ISessionFactory SessionFactory { get; set; }
 
-        public IList<Entity> GetEntity(Specification<Entity> specification)
+        public IEnumerable<T> FindAll<T>(Specification<T> specification)
+            where T : class
         {
-            if (specification == null)
-            {
-                throw new ArgumentNullException("specification");
-            }
+            var query = this.GetQuery<T>(specification);
+            return query.ToList();
+        }
 
-            using (var session = this.SessionFactory.OpenSession())
-            {
-                var result = session.QueryOver<Entity>().Where(specification.IsSatisfiedBy()).List();
-                return result;
-            }
+        private IQueryable<T> GetQuery<T>(Specification<T> specification)
+            where T : class
+        {
+            return this.session.Query<T>().Where(specification.IsSatisfiedBy());
         }
     }
 }
