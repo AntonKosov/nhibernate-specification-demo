@@ -11,9 +11,7 @@
     {
         static RepositoryFactory()
         {
-            string databaseFileName = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                "database.db3");
+            string databaseFileName = Path.Combine(Path.GetFullPath(".."), @"..\..\database.db3");
             Repository = new Repository(databaseFileName);
         }
 
